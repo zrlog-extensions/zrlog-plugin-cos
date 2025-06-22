@@ -1,12 +1,12 @@
 package com.zrlog.plugin.cos.timer;
 
 import com.google.gson.Gson;
-import com.hibegin.common.util.FileUtils;
 import com.zrlog.plugin.IMsgPacketCallBack;
 import com.zrlog.plugin.IOSession;
+import com.zrlog.plugin.common.FileUtils;
 import com.zrlog.plugin.common.IdUtil;
-import com.zrlog.plugin.common.modle.BlogRunTime;
-import com.zrlog.plugin.common.modle.TemplatePath;
+import com.zrlog.plugin.common.model.BlogRunTime;
+import com.zrlog.plugin.common.model.TemplatePath;
 import com.zrlog.plugin.cos.entry.UploadFile;
 import com.zrlog.plugin.cos.service.UploadService;
 import com.zrlog.plugin.data.codec.ContentType;
