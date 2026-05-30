@@ -24,17 +24,15 @@ public class CosStaticSyncService implements IPluginService {
 
     @Override
     public void handle(IOSession session, MsgPacket msgPacket) {
+        SyncTemplateStaticResourceRunnable runnable = new SyncTemplateStaticResourceRunnable(session);
+        runnable.run();
+
         CapabilityInvokeResult result = new CapabilityInvokeResult();
+        result.setSuccess(runnable.isSuccess());
+        result.setErrorMessage(runnable.isSuccess() ? "" : runnable.getMessage());
         Map<String, Object> data = new HashMap<>();
-        try {
-            new SyncTemplateStaticResourceRunnable(session).run();
-            result.setSuccess(true);
-            data.put("message", "COS static resources sync completed");
-        } catch (Exception e) {
-            result.setSuccess(false);
-            result.setErrorMessage(e.getMessage());
-            data.put("message", e.getMessage());
-        }
+        data.put("filesCount", runnable.getFilesCount());
+        data.put("message", runnable.getMessage());
         result.setData(data);
         session.sendJsonMsg(result, msgPacket.getMethodStr(), msgPacket.getMsgId(),
                 result.isSuccess() ? MsgPacketStatus.RESPONSE_SUCCESS : MsgPacketStatus.RESPONSE_ERROR);

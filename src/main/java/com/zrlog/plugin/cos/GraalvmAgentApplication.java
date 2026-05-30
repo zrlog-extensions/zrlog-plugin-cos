@@ -2,7 +2,9 @@ package com.zrlog.plugin.cos;
 
 import com.zrlog.plugin.common.PluginNativeImageUtils;
 import com.zrlog.plugin.cos.controller.CosController;
+import com.zrlog.plugin.cos.service.CosStaticSyncService;
 import com.zrlog.plugin.cos.service.UploadService;
+import com.zrlog.plugin.cos.service.UploadToPrivateService;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +20,8 @@ public class GraalvmAgentApplication {
         //refreshObjectCachesResponse.setRefreshTaskId("");
         //refreshObjectCachesResponse.setRequestId("");
         UploadService.class.newInstance();
-        //UploadToPrivateService.class.newInstance();
+        UploadToPrivateService.class.newInstance();
+        CosStaticSyncService.class.newInstance();
         String basePath = System.getProperty("user.dir").replace("\\target", "").replace("/target", "");
         //PathKit.setRootPath(basePath);
         File file = new File(basePath + "/src/main/resources");
