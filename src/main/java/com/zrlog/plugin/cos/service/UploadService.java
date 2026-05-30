@@ -30,8 +30,8 @@ import java.util.Objects;
 @Capability(
         key = "cos.upload",
         type = "service",
-        label = "上传 COS 资源",
-        description = "上传文章附件或生成资源到腾讯云 COS",
+        label = "上传到腾讯云 COS",
+        description = "上传文章附件和生成资源到腾讯云 COS。",
         exposure = {"internal"},
         timeoutSeconds = 120
 )

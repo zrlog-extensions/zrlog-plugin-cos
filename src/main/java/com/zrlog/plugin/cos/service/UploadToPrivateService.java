@@ -7,8 +7,8 @@ import com.zrlog.plugin.api.Service;
 @Capability(
         key = "cos.uploadPrivate",
         type = "service",
-        label = "上传 COS 私有资源",
-        description = "上传私有附件或备份文件到腾讯云 COS 私有存储",
+        label = "上传到腾讯云 COS 私有存储",
+        description = "上传备份文件等私有资源到腾讯云 COS 私有存储桶。",
         exposure = {"internal"},
         timeoutSeconds = 120
 )

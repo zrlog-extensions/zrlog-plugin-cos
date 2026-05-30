@@ -16,7 +16,7 @@ import java.util.Map;
 @ScheduledCapability(
         key = "cos.syncStaticResources",
         label = "同步 COS 静态资源",
-        description = "同步模板静态资源到腾讯云 COS",
+        description = "同步模板静态资源到腾讯云 COS。",
         defaultCron = "*/5 * * * *",
         timeoutSeconds = 300
 )
