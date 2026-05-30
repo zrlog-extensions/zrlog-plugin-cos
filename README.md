@@ -49,3 +49,4 @@ mvn clean package -DskipTests
 - 纯粹的响应式配置前端：抛弃了老旧基于 jQuery 的方案，全面采用了 Vue 3 和 Element Plus 驱动。
 - UI 最大化利用 800px 宽度容器排版，靠左侧对齐，符合主流后台配置界面的阅读体验。
 - 支持 GraalVM Native Image 的编译 (依赖内置提供)。
+ 

@@ -90,7 +90,7 @@ const submitForm = () => {
         <h3>
           腾讯云存储设置
           <small>{{ version }}</small>
-          <a href="http://blog.zrlog.com/post/cos-install" target="_blank" class="help-link">如何寻找这些信息？</a>
+          <a href="https://blog.zrlog.com/cos-install" target="_blank" class="help-link">如何寻找这些信息？</a>
         </h3>
       </div>
       
@@ -153,9 +153,6 @@ const submitForm = () => {
 </template>
 
 <style>
-.admin-container {
-}
-
 .page-header {
   border-bottom: 1px solid #ebeef5;
   margin-bottom: 24px;

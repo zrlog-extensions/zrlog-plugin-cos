@@ -4,6 +4,7 @@ package com.zrlog.plugin.cos;
 import com.zrlog.plugin.client.NioClient;
 import com.zrlog.plugin.cos.controller.CosController;
 import com.zrlog.plugin.cos.handler.ConnectHandler;
+import com.zrlog.plugin.cos.service.CosStaticSyncService;
 import com.zrlog.plugin.cos.service.UploadService;
 import com.zrlog.plugin.cos.service.UploadToPrivateService;
 
@@ -17,10 +18,10 @@ public class Application {
      * @param args
      */
     public static void main(String[] args) throws IOException {
-        List<Class> classList = new ArrayList<>();
+        List<Class<?>> classList = new ArrayList<>();
         classList.add(CosController.class);
         new NioClient(new ConnectHandler(), null)
-                .connectServer(args, classList, CosPluginAction.class, Arrays.asList(UploadService.class, UploadToPrivateService.class));
+                .connectServer(args, classList, CosPluginAction.class,
+                        Arrays.asList(UploadService.class, UploadToPrivateService.class, CosStaticSyncService.class));
     }
 }
-
