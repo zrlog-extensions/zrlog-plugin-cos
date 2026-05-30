@@ -1,26 +1,45 @@
 {
-  "name": "frontend",
+  "name": "plugin-storage-frontend",
+  "version": "0.1.0",
+  "homepage": ".",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
-  },
   "dependencies": {
-    "element-plus": "^2.13.5",
-    "vue": "^3.5.25"
+    "@ant-design/cssinjs": "1.11.1",
+    "@ant-design/icons": "5.3.6",
+    "antd": "6.4.3",
+    "axios": "1.6.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "test": "react-scripts test",
+    "type-check": "tsc --noEmit"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "devDependencies": {
-    "@types/node": "^24.10.1",
-    "@vitejs/plugin-vue": "^6.0.2",
-    "@vue/tsconfig": "^0.8.1",
-    "typescript": "~5.9.3",
-    "vite": "^8.0.0-beta.13",
-    "vue-tsc": "^3.1.5"
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "@typescript-eslint/typescript-estree": "5.34.0",
+    "husky": "7.0.4",
+    "lint-staged": "11.1.2",
+    "prettier": "2.3.2",
+    "react-scripts": "5.0.1",
+    "typescript": "5.8.3"
   },
-  "resolutions": {
-    "vite": "^8.0.0-beta.13"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

@@ -17,15 +17,19 @@ import com.zrlog.plugin.type.ActionType;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
-public class SyncTemplateStaticResourceTimerTask extends TimerTask {
+public class SyncTemplateStaticResourceRunnable implements Runnable {
 
     private final IOSession session;
 
-    private Map<String, Long> fileWatcherMap = new HashMap<>();
+    private final Map<String, Long> fileWatcherMap = new HashMap<>();
 
-    public SyncTemplateStaticResourceTimerTask(IOSession session) {
+    public SyncTemplateStaticResourceRunnable(IOSession session) {
         this.session = session;
     }
 

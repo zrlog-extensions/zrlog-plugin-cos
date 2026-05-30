@@ -4,7 +4,7 @@ import com.zrlog.plugin.IOSession;
 import com.zrlog.plugin.api.IPluginService;
 import com.zrlog.plugin.api.ScheduledCapability;
 import com.zrlog.plugin.api.Service;
-import com.zrlog.plugin.cos.timer.SyncTemplateStaticResourceTimerTask;
+import com.zrlog.plugin.cos.timer.SyncTemplateStaticResourceRunnable;
 import com.zrlog.plugin.data.codec.MsgPacket;
 import com.zrlog.plugin.data.codec.MsgPacketStatus;
 import com.zrlog.plugin.message.CapabilityInvokeResult;
@@ -27,7 +27,7 @@ public class CosStaticSyncService implements IPluginService {
         CapabilityInvokeResult result = new CapabilityInvokeResult();
         Map<String, Object> data = new HashMap<>();
         try {
-            new SyncTemplateStaticResourceTimerTask(session).run();
+            new SyncTemplateStaticResourceRunnable(session).run();
             result.setSuccess(true);
             data.put("message", "COS static resources sync completed");
         } catch (Exception e) {
