@@ -1,5 +1,7 @@
 package com.zrlog.plugin.cos;
 
+import com.zrlog.plugin.RunConstants;
+import com.zrlog.plugin.type.RunType;
 import com.zrlog.plugin.common.PluginNativeImageUtils;
 import com.zrlog.plugin.cos.controller.CosController;
 import com.zrlog.plugin.cos.service.CosStaticSyncService;
@@ -14,6 +16,7 @@ public class GraalvmAgentApplication {
 
 
     public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
+        RunConstants.runType = RunType.AGENT;
         //upload need set content-type
         PluginNativeImageUtils.usedGsonObject();
         //RefreshObjectCachesResponse refreshObjectCachesResponse = new RefreshObjectCachesResponse();
