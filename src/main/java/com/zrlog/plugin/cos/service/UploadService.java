@@ -33,6 +33,7 @@ import java.util.Objects;
         label = "上传到腾讯云 COS",
         description = "上传文章附件和生成资源到腾讯云 COS。",
         exposure = {"internal"},
+        riskLevel = "medium",
         timeoutSeconds = 120
 )
 public class UploadService implements IPluginService {

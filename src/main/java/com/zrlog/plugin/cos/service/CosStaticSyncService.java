@@ -1,6 +1,7 @@
 package com.zrlog.plugin.cos.service;
 
 import com.zrlog.plugin.IOSession;
+import com.zrlog.plugin.api.Capability;
 import com.zrlog.plugin.api.IPluginService;
 import com.zrlog.plugin.api.ScheduledCapability;
 import com.zrlog.plugin.api.Service;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service("cos.syncStaticResources")
+@Capability(key = "cos.syncStaticResources", riskLevel = "medium")
 @ScheduledCapability(
         key = "cos.syncStaticResources",
         label = "同步 COS 静态资源",
