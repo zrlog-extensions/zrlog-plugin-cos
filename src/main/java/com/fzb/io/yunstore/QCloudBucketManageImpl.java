@@ -41,8 +41,7 @@ public class QCloudBucketManageImpl implements BucketManageAPI {
             LoggerUtil.getLogger(QCloudBucketManageImpl.class).log(Level.SEVERE, "", e);
         }
         UploadFileRequest uploadFileRequest = new UploadFileRequest(qCloudBucketVO.getBucketName(), "/" + key, file.toString());
-        String result = cosClient.uploadFile(uploadFileRequest);
-        System.out.println("result = " + result);
+        cosClient.uploadFile(uploadFileRequest);
         return (supportHttps ? "https" : "http") + "://" + qCloudBucketVO.getHost() + "/" + key;
     }
 
