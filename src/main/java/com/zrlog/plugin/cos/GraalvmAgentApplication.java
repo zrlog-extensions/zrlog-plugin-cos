@@ -15,16 +15,13 @@ import java.util.Collections;
 public class GraalvmAgentApplication {
 
 
-    public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws IOException, ReflectiveOperationException {
         RunConstants.runType = RunType.AGENT;
         //upload need set content-type
         PluginNativeImageUtils.usedGsonObject();
-        //RefreshObjectCachesResponse refreshObjectCachesResponse = new RefreshObjectCachesResponse();
-        //refreshObjectCachesResponse.setRefreshTaskId("");
-        //refreshObjectCachesResponse.setRequestId("");
-        UploadService.class.newInstance();
-        UploadToPrivateService.class.newInstance();
-        CosStaticSyncService.class.newInstance();
+        UploadService.class.getDeclaredConstructor().newInstance();
+        UploadToPrivateService.class.getDeclaredConstructor().newInstance();
+        CosStaticSyncService.class.getDeclaredConstructor().newInstance();
         String basePath = System.getProperty("user.dir").replace("\\target", "").replace("/target", "");
         //PathKit.setRootPath(basePath);
         File file = new File(basePath + "/src/main/resources");
