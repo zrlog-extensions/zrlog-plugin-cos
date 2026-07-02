@@ -4,12 +4,19 @@ import com.zrlog.plugin.RunConstants;
 import com.zrlog.plugin.type.RunType;
 import com.zrlog.plugin.common.PluginNativeImageUtils;
 import com.zrlog.plugin.cos.controller.CosController;
+import com.zrlog.plugin.cos.controller.StorageApiResponse;
+import com.zrlog.plugin.cos.controller.StorageInfoResponse;
+import com.zrlog.plugin.cos.controller.StorageProvider;
+import com.zrlog.plugin.cos.controller.WebsiteKeyRequest;
+import com.zrlog.plugin.cos.service.CosStorageConfig;
 import com.zrlog.plugin.cos.service.CosStaticSyncService;
 import com.zrlog.plugin.cos.service.UploadService;
+import com.zrlog.plugin.cos.service.UploadServiceRequest;
 import com.zrlog.plugin.cos.service.UploadToPrivateService;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class GraalvmAgentApplication {
@@ -19,6 +26,8 @@ public class GraalvmAgentApplication {
         RunConstants.runType = RunType.AGENT;
         //upload need set content-type
         PluginNativeImageUtils.usedGsonObject();
+        PluginNativeImageUtils.gsonNativeAgentByClazz(Arrays.asList(UploadServiceRequest.class, CosStorageConfig.class,
+                StorageApiResponse.class, StorageInfoResponse.class, StorageProvider.class, WebsiteKeyRequest.class));
         UploadService.class.getDeclaredConstructor().newInstance();
         UploadToPrivateService.class.getDeclaredConstructor().newInstance();
         CosStaticSyncService.class.getDeclaredConstructor().newInstance();

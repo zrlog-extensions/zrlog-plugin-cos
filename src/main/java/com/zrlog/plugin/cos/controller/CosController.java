@@ -7,11 +7,11 @@ import com.zrlog.plugin.data.codec.ContentType;
 import com.zrlog.plugin.data.codec.HttpRequestInfo;
 import com.zrlog.plugin.data.codec.MsgPacket;
 import com.zrlog.plugin.data.codec.MsgPacketStatus;
+import com.zrlog.plugin.cos.service.CosStorageConfig;
 import com.zrlog.plugin.type.ActionType;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by xiaochun on 2016/2/13.
@@ -32,11 +32,9 @@ public class CosController {
     }
 
     public void update() {
-        session.sendMsg(new MsgPacket(requestInfo.simpleParam(), ContentType.JSON, MsgPacketStatus.SEND_REQUEST,
+        session.sendMsg(new MsgPacket(requestConfig(), ContentType.JSON, MsgPacketStatus.SEND_REQUEST,
                 IdUtil.getInt(), ActionType.SET_WEBSITE.name()), msgPacket -> {
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("success", true);
-                    session.sendMsg(new MsgPacket(map, ContentType.JSON, MsgPacketStatus.RESPONSE_SUCCESS,
+                    session.sendMsg(new MsgPacket(StorageApiResponse.success(), ContentType.JSON, MsgPacketStatus.RESPONSE_SUCCESS,
                             requestPacket.getMsgId(), requestPacket.getMethodStr()));
                 });
     }
@@ -48,64 +46,62 @@ public class CosController {
     public void index() {
         Map<String, Object> data = new HashMap<>();
         data.put("theme", isDarkMode() ? "dark" : "light");
-        data.put("data", gson.toJson(pageData()));
+        data.put("data", gson.toJson(StorageApiResponse.success(pageData())));
         session.responseHtml("/templates/index", data, requestPacket.getMethodStr(),
                 requestPacket.getMsgId());
     }
 
     public void json() {
-        response(pageData());
+        response(StorageApiResponse.success(pageData()));
     }
 
-    private Map<String, Object> pageData() {
-        Map<String, Object> data = new HashMap<>();
-        data.put("dark", isDarkMode());
-        data.put("colorPrimary", getAdminColorPrimary());
-        data.put("plugin", session.getPlugin());
-        data.put("provider", provider());
-        data.put("config", loadConfig());
-        return successMap(data);
+    private StorageInfoResponse<CosStorageConfig> pageData() {
+        StorageInfoResponse<CosStorageConfig> data = new StorageInfoResponse<CosStorageConfig>();
+        data.setDark(isDarkMode());
+        data.setColorPrimary(getAdminColorPrimary());
+        data.setPlugin(session.getPlugin());
+        data.setProvider(provider());
+        data.setConfig(loadConfig());
+        return data;
     }
 
-    private Map<String, Object> provider() {
-        Map<String, Object> provider = new HashMap<>();
-        provider.put("key", "cos");
-        provider.put("title", "腾讯云 COS 对象存储设置");
-        provider.put("helpUrl", "https://blog.zrlog.com/cos-install");
-        provider.put("regionLabel", "Region");
-        provider.put("privateBucket", true);
-        provider.put("appId", true);
-        provider.put("syncHtml", false);
-        provider.put("supportHttps", true);
-        return provider;
+    private StorageProvider provider() {
+        return new StorageProvider("cos", "腾讯云 COS 对象存储设置", "https://blog.zrlog.com/cos-install",
+                "Region", true, true, false, true);
     }
 
-    private Map<String, Object> loadConfig() {
-        Map<String, Object> keyMap = new HashMap<>();
-        keyMap.put("key", CONFIG_KEYS);
-        Map response = session.getResponseSync(ContentType.JSON, keyMap, ActionType.GET_WEBSITE, Map.class);
-        Map<String, Object> config = response == null ? new HashMap<>() : new HashMap<>(response);
-        normalizeSwitch(config, "syncTemplate");
-        normalizeSwitch(config, "supportHttps");
-        config.put("version", session.getPlugin().getVersion());
+    private CosStorageConfig loadConfig() {
+        CosStorageConfig config = session.getResponseSync(ContentType.JSON, WebsiteKeyRequest.of(CONFIG_KEYS), ActionType.GET_WEBSITE, CosStorageConfig.class);
+        if (config == null) {
+            config = new CosStorageConfig();
+        }
+        config.normalizeForPage(session.getPlugin().getVersion());
         return config;
     }
 
-    private void normalizeSwitch(Map<String, Object> config, String key) {
-        if (!Objects.equals(config.get(key), "on")) {
-            config.put(key, "off");
+    private CosStorageConfig requestConfig() {
+        CosStorageConfig config = new CosStorageConfig();
+        config.setAccessKey(paramValue("access_key"));
+        config.setSecretKey(paramValue("secret_key"));
+        config.setHost(paramValue("host"));
+        config.setBucket(paramValue("bucket"));
+        config.setPrivateBucket(paramValue("private_bucket"));
+        config.setAppId(paramValue("appId"));
+        config.setRegion(paramValue("region"));
+        config.setSupportHttps(paramValue("supportHttps"));
+        config.setSyncTemplate(paramValue("syncTemplate"));
+        return config;
+    }
+
+    private void response(Object data) {
+        session.sendMsg(ContentType.JSON, data, requestPacket.getMethodStr(), requestPacket.getMsgId(), MsgPacketStatus.RESPONSE_SUCCESS);
+    }
+
+    private String paramValue(String key) {
+        if (requestInfo.getParam() == null || requestInfo.getParam().get(key) == null || requestInfo.getParam().get(key).length == 0) {
+            return "";
         }
-    }
-
-    private Map<String, Object> successMap(Object data) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("success", true);
-        map.put("data", data);
-        return map;
-    }
-
-    private void response(Map<String, Object> map) {
-        session.sendMsg(ContentType.JSON, map, requestPacket.getMethodStr(), requestPacket.getMsgId(), MsgPacketStatus.RESPONSE_SUCCESS);
+        return requestInfo.getParam().get(key)[0];
     }
 
     private boolean isDarkMode() {
