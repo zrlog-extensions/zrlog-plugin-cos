@@ -1,6 +1,7 @@
 package com.zrlog.plugin.cos.controller;
 
 import com.google.gson.Gson;
+import com.zrlog.plugin.data.codec.PluginAppearance;
 import com.zrlog.plugin.IOSession;
 import com.zrlog.plugin.common.IdUtil;
 import com.zrlog.plugin.data.codec.ContentType;
@@ -58,6 +59,7 @@ public class CosController {
     private StorageInfoResponse<CosStorageConfig> pageData() {
         StorageInfoResponse<CosStorageConfig> data = new StorageInfoResponse<CosStorageConfig>();
         data.setDark(isDarkMode());
+        data.setAppearance(PluginAppearance.from(requestInfo));
         data.setColorPrimary(getAdminColorPrimary());
         data.setPlugin(session.getPlugin());
         data.setProvider(provider());

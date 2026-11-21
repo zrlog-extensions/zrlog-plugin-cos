@@ -4,15 +4,17 @@ import {
     Divider,
     Form,
     Grid,
-    Input,
     Row,
     Space,
-    Switch,
-    Typography,
-    message,
     theme,
 } from "antd";
-import {CloudSyncOutlined, QuestionCircleOutlined, SaveOutlined} from "@ant-design/icons";
+import {useUiMessage} from "@zrlog/ui/feedback";
+import Input from "@zrlog/ui/antd/Input";
+import Switch from "@zrlog/ui/antd/Switch";
+import Typography from "@zrlog/ui/antd/Typography";
+import SyncIcon from "@zrlog/ui/icons/sync";
+import HelpIcon from "@zrlog/ui/icons/help";
+import SaveIcon from "@zrlog/ui/icons/save";
 import axios from "axios";
 import {FunctionComponent, useEffect, useMemo, useState} from "react";
 import {StandardResponse, StorageConfig, StorageInfoResponse} from "../index";
@@ -58,7 +60,7 @@ const StorageSettings: FunctionComponent<StorageSettingsProps> = ({data}) => {
     const isCompact = !screens.md;
     const [form] = Form.useForm<StorageFormValues>();
     const [loading, setLoading] = useState(false);
-    const [messageApi, contextHolder] = message.useMessage();
+    const [messageApi, contextHolder] = useUiMessage();
     const provider = data.provider;
 
     useEffect(() => {
@@ -132,7 +134,7 @@ const StorageSettings: FunctionComponent<StorageSettingsProps> = ({data}) => {
                         <Typography.Text type="secondary" style={{display: "block", maxWidth: "100%"}}>{data.plugin.desc}</Typography.Text>
                     </Space>
                     {provider.helpUrl ? (
-                        <Button icon={<QuestionCircleOutlined/>} href={provider.helpUrl} target="_blank" style={isPhone ? {width: "100%"} : undefined}>
+                        <Button icon={<HelpIcon/>} href={provider.helpUrl} target="_blank" style={isPhone ? {width: "100%"} : undefined}>
                             帮助文档
                         </Button>
                     ) : null}
@@ -191,7 +193,7 @@ const StorageSettings: FunctionComponent<StorageSettingsProps> = ({data}) => {
                                 <Switch checkedChildren="同步" unCheckedChildren="关闭"/>
                             </Form.Item>
                             <Typography.Text type="secondary">
-                                <CloudSyncOutlined/> 开启后会同步当前主题的静态资源
+                                <SyncIcon/> 开启后会同步当前主题的静态资源
                             </Typography.Text>
                             {provider.syncHtml ? (
                                 <Form.Item label="静态缓存 HTML 文件同步" name="syncHtml" valuePropName="checked" style={{marginBottom: 0}}>
@@ -207,7 +209,7 @@ const StorageSettings: FunctionComponent<StorageSettingsProps> = ({data}) => {
 
                         <Divider/>
 
-                        <Button type="primary" htmlType="submit" icon={<SaveOutlined/>} loading={loading} style={isPhone ? {width: "100%"} : undefined}>
+                        <Button type="primary" htmlType="submit" icon={<SaveIcon/>} loading={loading} style={isPhone ? {width: "100%"} : undefined}>
                             保存
                         </Button>
                     </Form>

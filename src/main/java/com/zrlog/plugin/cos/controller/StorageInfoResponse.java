@@ -1,14 +1,24 @@
 package com.zrlog.plugin.cos.controller;
 
+import com.zrlog.plugin.data.codec.PluginAppearance;
 import com.zrlog.plugin.message.Plugin;
 
 public class StorageInfoResponse<T> {
 
     private boolean dark;
+    private PluginAppearance appearance;
     private String colorPrimary;
     private Plugin plugin;
     private StorageProvider provider;
     private T config;
+
+    public PluginAppearance getAppearance() {
+        return appearance;
+    }
+
+    public void setAppearance(PluginAppearance appearance) {
+        this.appearance = appearance;
+    }
 
     public boolean isDark() {
         return dark;
